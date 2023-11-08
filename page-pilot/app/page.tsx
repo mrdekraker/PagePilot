@@ -16,7 +16,7 @@ export default function Home() {
       if (i < welcomeText.length) {
         setText((prevText) => prevText + welcomeText.charAt(i));
         i++;
-        timer = setTimeout(typeWriter, 150); // Adjust the typing speed here (e.g., increase or decrease the delay)
+        timer = setTimeout(typeWriter, 150);
       }
     };
 
@@ -28,10 +28,10 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="border border-amber-400 flex flex-col justify-center items-center" style={{ minHeight: `calc(100vh - ${navheight})` }}>
+    <main className="flex flex-col justify-center items-center" style={{ minHeight: `calc(100vh - ${navheight})` }}>
       <div className="text-center mb-8">
         <h1 className="text-6xl">{text}</h1>
-        <p>Your all-in-one book companion</p>
+        <p className="text-2xl">Your all-in-one book companion.</p>
       </div>
 
       <div className="text-center">
@@ -47,6 +47,13 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <style>
+        {`
+          body {
+            overflow: hidden;
+          }
+        `}
+      </style>
     </main>
   );
 }
