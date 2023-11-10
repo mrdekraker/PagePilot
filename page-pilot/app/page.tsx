@@ -1,59 +1,28 @@
-'use client';
+// use client
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import SearchBar from './components/SearchBar';
+import Results from './components/Results';
 
 export default function Home() {
-  const navheight = "74.9609px";
-  const [text, setText] = useState('');
-  const welcomeText = "Welcome to PagePilot";
+  const [searchResults, setSearchResults] = useState([]); // State to store search results
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    let i = 0;
-
-    const typeWriter = () => {
-      if (i < welcomeText.length) {
-        setText((prevText) => prevText + welcomeText.charAt(i));
-        i++;
-        timer = setTimeout(typeWriter, 150);
-      }
-    };
-
-    typeWriter();
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+  // Function to update search results
+  const handleSearch = (results) => {
+    setSearchResults(results);
+  };
 
   return (
-    <main className="flex flex-col justify-center items-center" style={{ minHeight: `calc(100vh - ${navheight})` }}>
-      <div className="text-center mb-8">
-        <h1 className="text-6xl">{text}</h1>
+    <main className="leading-7">
+      <div className="border bg-ocean-surf text-center my-8 p-6">
+        <h1 className="text-6xl">Discover Books You'll Love</h1>
         <p className="text-2xl">Your all-in-one book companion.</p>
+        <SearchBar onSearch={handleSearch} /> {/* Pass the onSearch function */}
       </div>
-
-      <div className="text-center">
-        <h2 className="text-lg font-semibold">Search for Books</h2>
-        <div className="flex items-center rounded-sm overflow-hidden">
-          <input
-            type="text"
-            placeholder="Search books..."
-            className="w-full py-2 px-3 text-gray-700"
-          />
-          <button className="bg-blue-500 text-white py-2 px-4 hover-bg-blue-600">
-            Search
-          </button>
-        </div>
+      <div>
+        <Results results={searchResults} /> {/* Pass the search results to the Results component */}
       </div>
-      <style>
-        {`
-          body {
-            overflow: hidden;
-          }
-        `}
-      </style>
     </main>
   );
 }

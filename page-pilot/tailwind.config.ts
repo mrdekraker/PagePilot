@@ -18,6 +18,9 @@ const config: Config = {
         "accent-red": "#EA9648",
         "accent-orange": "#F6CF68",
         "accent-green": "#C2E9B4",
+        "ocean-surf": "#DFF4F3",
+        "ocean-blue": "#00A6A1",
+        "ocean-deep": "#006865",
       },
       backgroundImage: (theme) => ({
         "gradient-gradual":

@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import { League_Spartan } from 'next/font/google';
+import { BookOpenIcon } from '@heroicons/react/24/solid'
+
 import './globals.css';
+
+
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 const spartan = League_Spartan({
   subsets: ['latin'],
@@ -20,11 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={spartan.className}>
+      <body className={`${spartan.className} flex flex-col min-h-screen`}>
         <Navbar />
-        <div className="">
+        <main className="flex-grow">
           {children}
-        </div>
+        </main>
+        <Footer />
       </body>
     </html>
   );

@@ -16,3 +16,7 @@ body,
   width: 100%;
   /* @apply text-sm; */
 }
+
+body {
+  overflow: hidden;
+}
