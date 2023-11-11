@@ -30,7 +30,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   }, [query]);
 
   const fetchBooks = async () => {
-    const apiKey = 'AIzaSyBkUc-7VeSGBQ9MWzMKUG2SQZcwifJVOJk'; // Replace with your actual API key
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY;
     const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
 
     try {
@@ -63,7 +63,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
   return (
     <div className="flex items-center justify-center my-4">
-      <div className="w-1/3 relative">
+      <div className="sm:w-1/3 relative">
         <MagnifyingGlassIcon className="w-6 h-6 absolute left-3 top-1/2 transform -translate-y-1/2" />
         <input
           name="search"
@@ -72,6 +72,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           value={query}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
+          autoComplete="off"
           className="w-full py-4 pl-10 px-6 text-lg text-gray-700 border border-ocean-blue rounded-md focus:outline-none focus:ring-1 focus:ring-ocean-deep"
         />
         {suggestions.length > 0 && (

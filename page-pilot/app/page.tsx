@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import SearchBar from './components/SearchBar';
-import Results from './components/Results';
 import Genre from './components/Genre';
 
 export default function Home() {
+  // const router = useRouter();
   const [searchResults, setSearchResults] = useState<any[]>([]); // State to store search results
   const [selectedGenre, setSelectedGenre] = useState<string>(''); // State to store selected genre
 
@@ -18,7 +18,8 @@ export default function Home() {
   // Function to update selected genre
   const handleSelectGenre = (genre: string) => {
     setSelectedGenre(genre);
-  // ...
+
+    // router.push(`/discover?genre=${encodeURIComponent(genre)}`);
 };
 
   return (
@@ -26,18 +27,14 @@ export default function Home() {
       <div className="border bg-ocean-surf text-center my-8 p-6">
         <h1 className="text-6xl">Discover Books You'll Love</h1>
         <p className="text-2xl">Your all-in-one book companion.</p>
-        <SearchBar onSearch={handleSearch} /> {/* Pass the onSearch function */}
+        <SearchBar onSearch={handleSearch} />
       </div>
-      
-      <div className="w-2/3 mx-auto">
+
+      <div className="w-2/3 mx-auto items-center sm:my-10 sm:p-6">
         <Genre
           selectedGenre={selectedGenre}
           onSelectGenre={handleSelectGenre}
         />
-      </div>
-
-      <div>
-        <Results results={searchResults} /> {/* Pass the search results to the Results component */}
       </div>
     </main>
   );
