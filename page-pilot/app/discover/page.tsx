@@ -1,10 +1,11 @@
 import React from 'react'
 
-export default function Discover() {
+type Props = {}
+
+const Discover = (props: Props) => {
   return (
-      <main>
-        <h1>Discover Books</h1>
-        {/* Add your book discovery components here */}
-      </main>
+    <div>Discover</div>
   )
 }
+
+export default Discover

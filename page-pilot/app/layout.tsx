@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${spartan.className} flex flex-col min-h-screen`}>
+    <html lang="en" style={{ height: '100%' }}>
+      <body className={`${spartan.className} flex flex-col min-h-screen`} style={{ overflowY: 'auto' }}>
         <Navbar />
         <main className="flex-grow">
           {children}
