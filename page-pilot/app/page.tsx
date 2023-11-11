@@ -1,26 +1,18 @@
 'use client';
 
+// Import the necessary dependencies
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router'; // Import the useRouter hook
 import SearchBar from './components/SearchBar';
 import Genre from './components/Genre';
 
 export default function Home() {
-  // const router = useRouter();
-  const [searchResults, setSearchResults] = useState<any[]>([]); // State to store search results
-  const [selectedGenre, setSelectedGenre] = useState<string>(''); // State to store selected genre
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 
-  // Function to update search results
   const handleSearch = (results: any[]) => {
     setSearchResults(results);
   };
-
-  // Function to update selected genre
-  const handleSelectGenre = (genre: string) => {
-    setSelectedGenre(genre);
-
-    // router.push(`/discover?genre=${encodeURIComponent(genre)}`);
-};
 
   return (
     <main className="leading-7">
@@ -31,10 +23,7 @@ export default function Home() {
       </div>
 
       <div className="w-2/3 mx-auto items-center sm:my-10 sm:p-6">
-        <Genre
-          selectedGenre={selectedGenre}
-          onSelectGenre={handleSelectGenre}
-        />
+        <Genre selectedGenre={selectedGenre} onSelectGenre={setSelectedGenre} />
       </div>
     </main>
   );

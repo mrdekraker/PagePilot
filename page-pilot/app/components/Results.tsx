@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface ResultsProps {
-  results: { title: string }[];
+  selectedGenre: string | null;
 }
 
-const Results: React.FC<ResultsProps> = ({ results }) => {
+const Results: React.FC<ResultsProps> = ({ selectedGenre }) => {
+  const [results, setResults] = useState<{ title: string }[]>([]);
+
+  useEffect(() => {
+    // Fetch results based on the selected genre
+    // Example: fetchResultsByGenre(selectedGenre);
+    // Update the results state with the fetched data
+    // setResults(fetchedData);
+  }, [selectedGenre]);
+
   return (
     <div>
       {results.length > 0 ? (

@@ -1,11 +1,28 @@
-import React from 'react'
+'use client';
 
-type Props = {}
+import React, { useEffect, useState } from 'react';
+import Results from '../components/Results';
 
-const Discover = (props: Props) => {
+const Discover: React.FC = () => {
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Get the selected genre from the query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const genre = urlParams.get('genre');
+
+    if (genre) {
+      setSelectedGenre(decodeURIComponent(genre));
+    }
+  }, []);
+
   return (
-    <div>Discover</div>
-  )
-}
+    <div>
+      <h1>Discover</h1>
+      {selectedGenre && <p>Results for genre: {selectedGenre}</p>}
+      <Results selectedGenre={selectedGenre} />
+    </div>
+  );
+};
 
-export default Discover
+export default Discover;
