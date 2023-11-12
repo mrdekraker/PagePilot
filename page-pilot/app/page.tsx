@@ -22,7 +22,7 @@ export default function Home() {
         <SearchBar onSearch={handleSearch} />
       </div>
 
-      <div className="w-2/3 mx-auto items-center sm:my-10 sm:p-6">
+      <div className="w-2/3 mx-auto items-center sm:my-10 sm:p-2ip[8i,kj ">
         <Genre selectedGenre={selectedGenre} onSelectGenre={setSelectedGenre} />
       </div>
     </main>

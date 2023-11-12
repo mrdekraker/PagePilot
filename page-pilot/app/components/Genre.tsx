@@ -7,7 +7,7 @@ interface GenreProps {
 }
 
 const genres = [
-  'Mystery/Thriller',
+  'Mystery',
   'Science Fiction',
   'Fantasy',
   'Romance',
@@ -16,11 +16,11 @@ const genres = [
   'Young Adult (YA) Fiction',
   'Contemporary Fiction',
   'Non-Fiction',
-  'Biography/Memoir',
-  'Self-Help/Motivational',
+  'Biography',
+  'Self-Help',
   'Horror',
   'Classic Literature',
-  'Adventure/Action',
+  'Adventure',
   "Children's Books",
 ];
 

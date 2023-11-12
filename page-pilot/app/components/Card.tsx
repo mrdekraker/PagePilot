@@ -1,18 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 
-type CardProps = {
+type BookProps = {
   title: string;
   author: string;
   publisher: string;
   picture: string;
   datePublished: string;
-  price: number; // Assuming price is a number
-  isbn: string; // Assuming isbn is a string
+  price: number | undefined; // Allow price to be undefined
+  isbn: string;
+};
+
+type CardProps = {
+  book: BookProps;
   onClick: () => void;
 };
 
-const Card: React.FC<CardProps> = ({ title, author, publisher, picture, datePublished, price, isbn, onClick }) => {
+const Card: React.FC<CardProps> = ({ book, onClick }) => {
+  const { title, author, publisher, picture, datePublished, price, isbn } = book;
   return (
     <div className="max-w-xs rounded overflow-hidden shadow-lg m-4">
       <Link href="/discover" passHref>
@@ -26,7 +31,9 @@ const Card: React.FC<CardProps> = ({ title, author, publisher, picture, datePubl
         <p className="text-gray-700 text-sm">Publisher: {publisher}</p>
         <p className="text-gray-700 text-sm">Date Published: {datePublished}</p>
         <p className="text-gray-700 text-sm">ISBN: {isbn}</p>
-        <p className="text-gray-700 text-sm">Price: ${price.toFixed(2)}</p>
+        {typeof price !== 'undefined' && ( // Check if price is defined before using toFixed
+          <p className="text-gray-700 text-sm">Price: ${price.toFixed(2)}</p>
+        )}
       </div>
       <div className="px-4 pt-2 pb-1">
         <Link href="/discover" passHref>
