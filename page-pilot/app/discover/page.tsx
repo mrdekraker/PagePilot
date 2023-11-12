@@ -49,6 +49,9 @@ const Discover: React.FC = () => {
 
         fetchedBooks = fetchedBooks.concat(batchBooks);
         startIndex += batchBooks.length;
+
+        // Log the API response
+      console.log('API Response for genre:', genre, response.data);
       }
 
       setGenreResults(fetchedBooks.slice(0, maxResults)); // Limit to the first 30 results
