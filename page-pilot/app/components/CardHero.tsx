@@ -1,11 +1,23 @@
-import React from 'react'
+import React from 'react';
 
-type Props = {}
-
-const CardHero = (props: Props) => {
-  return (
-    <div className='text-24'>CardHero</div>
-  )
+interface CardHeroProps {
+  book: {
+    title: string;
+    publisher: string;
+    publishedDate: string;
+    // ... other book properties
+  };
 }
 
-export default CardHero
+const CardHero: React.FC<CardHeroProps> = ({ book }) => {
+  return (
+    <div>
+      <h2>{book.title}</h2>
+      <p>Publisher: {book.publisher}</p>
+      <p>Published Date: {book.publishedDate}</p>
+      {/* ... other book details */}
+    </div>
+  );
+};
+
+export default CardHero;

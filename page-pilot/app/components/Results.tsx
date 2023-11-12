@@ -1,6 +1,5 @@
 import React from 'react';
-import Card from './Card'; // Import the Card component
-import CardHero from './CardHero'; // Import the CardHero component
+import Card from './Card';
 
 interface ResultsProps {
   bookData: {
@@ -13,15 +12,11 @@ interface ResultsProps {
       authors: string[];
     };
   }[];
+  onDiscoverMoreClick: (book: any) => void; // Add the prop for the click event
 }
 
-const Results: React.FC<ResultsProps> = ({ bookData }) => {
-  const limitedBookData = bookData.slice(0, 30); // Limit to the first 30 results
-  const [showCardHero, setShowCardHero] = React.useState(false);
-
-  const handleDiscoverMoreClick = () => {
-    setShowCardHero(true);
-  };
+const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
+  const limitedBookData = bookData.slice(0, 30);
 
   return (
     <div className="p-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
@@ -38,10 +33,9 @@ const Results: React.FC<ResultsProps> = ({ bookData }) => {
             },
             authors: book.volumeInfo.authors || ['Unknown Author'],
           }}
-          onDiscoverMoreClick={handleDiscoverMoreClick} // Pass the click handler as a prop
+          onDiscoverMoreClick={() => onDiscoverMoreClick(book)} // Pass the book to the handler
         />
       ))}
-      {showCardHero && <CardHero />} {/* Render CardHero conditionally */}
     </div>
   );
 };

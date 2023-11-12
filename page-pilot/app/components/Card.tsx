@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 type BookProps = {
   title: string;
@@ -12,7 +11,7 @@ type BookProps = {
 
 type CardProps = {
   book: BookProps;
-  onDiscoverMoreClick: () => void; // Define the prop for the click event
+  onDiscoverMoreClick: (book: BookProps) => void; // Modify the type to accept the book parameter
 };
 
 const Card: React.FC<CardProps> = ({ book, onDiscoverMoreClick }) => {
@@ -32,7 +31,7 @@ const Card: React.FC<CardProps> = ({ book, onDiscoverMoreClick }) => {
       : description;
 
   const handleClickDiscoverMore = () => {
-    onDiscoverMoreClick(); // Execute the function from the prop
+    onDiscoverMoreClick(book); // Pass the book to the parent handler
   };
 
   return (
@@ -53,24 +52,18 @@ const Card: React.FC<CardProps> = ({ book, onDiscoverMoreClick }) => {
         </div>
 
         <div className="mt-auto flex items-center justify-center">
-          <Link href="/discover" passHref>
-            <div
-              className="cursor-pointer inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
-              onClick={handleClickDiscoverMore}
-            >
-              Discover More
-            </div>
-          </Link>
-          <Link href="/understand" passHref>
-            <div
-              className="cursor-pointer inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
-              // onClick={handleClickDiscoverMore}
-            >
-              Understand More
-            </div>
-          </Link>
-
-          {/* Add other links or elements as needed */}
+          <div
+            className="cursor-pointer inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+            onClick={handleClickDiscoverMore}
+          >
+            Discover More
+          </div>
+          <div
+            className="cursor-pointer inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+            // onClick={handleClickDiscoverMore}
+          >
+            Understand More
+          </div>
         </div>
       </div>
     </div>
