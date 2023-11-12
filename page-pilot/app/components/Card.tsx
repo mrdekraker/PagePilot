@@ -3,12 +3,11 @@ import Link from 'next/link';
 
 type BookProps = {
   title: string;
-  author: string;
+  authors: string[];
   publisher: string;
-  picture: string;
-  datePublished: string;
-  price: number | undefined; // Allow price to be undefined
-  isbn: string;
+  publishedDate: string;
+  description: string;
+  imageLinks: { thumbnail: string };
 };
 
 type CardProps = {
@@ -17,23 +16,33 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ book, onClick }) => {
-  const { title, author, publisher, picture, datePublished, price, isbn } = book;
+  const { title, authors, publisher, publishedDate, description, imageLinks } = book;
+
+  // Check if imageLinks is defined before accessing its thumbnail property
+  const thumbnailUrl = imageLinks?.thumbnail || 'placeholder-image-url';
+
+  // Check if authors is defined and has length before calling join
+  const authorsText = authors && authors.length > 0 ? authors.join(', ') : 'Unknown Author';
+
+  // Truncate description to a specific length (e.g., 150 characters)
+  const maxDescriptionLength = 150;
+  const truncatedDescription = description.length > maxDescriptionLength
+    ? `${description.slice(0, maxDescriptionLength)}...`
+    : description;
+
+  const handleClick = () => {
+    onClick(); // You can customize the click handling as needed
+  };
+
   return (
-    <div className="max-w-xs rounded overflow-hidden shadow-lg m-4">
-      <Link href="/discover" passHref>
-        <div className="cursor-pointer">
-          <img className="w-full h-32 object-contain" src={picture} alt={title} />
-        </div>
-      </Link>
-      <div className="px-4 py-2">
-        <div className="font-bold text-md mb-1">{title}</div>
-        <p className="text-gray-700 text-sm">Author: {author}</p>
+    <div className="border border-ocean-deep h-[364px]" onClick={handleClick}>
+      <img className="w-full h-32 object-contain" src={thumbnailUrl} alt={title} />
+      <div className="bottom">
+        <h3 className="title">{title}</h3>
+        <p className="text-gray-700 text-sm">Author: {authorsText}</p>
         <p className="text-gray-700 text-sm">Publisher: {publisher}</p>
-        <p className="text-gray-700 text-sm">Date Published: {datePublished}</p>
-        <p className="text-gray-700 text-sm">ISBN: {isbn}</p>
-        {typeof price !== 'undefined' && ( // Check if price is defined before using toFixed
-          <p className="text-gray-700 text-sm">Price: ${price.toFixed(2)}</p>
-        )}
+        <p className="text-gray-700 text-sm">Published Date: {publishedDate}</p>
+        <p className="text-gray-700 text-sm">Description: {truncatedDescription}</p>
       </div>
       <div className="px-4 pt-2 pb-1">
         <Link href="/discover" passHref>
