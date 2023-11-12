@@ -1,5 +1,6 @@
 'use client';
 
+// Discover.tsx
 import React, { useEffect, useState } from 'react';
 import Results from '../components/Results';
 import CardHero from '../components/CardHero';
@@ -51,7 +52,7 @@ const Discover: React.FC = () => {
         startIndex += batchBooks.length;
 
         // Log the API response
-      console.log('API Response for genre:', genre, response.data);
+        console.log('API Response for genre:', genre, response.data);
       }
 
       setGenreResults(fetchedBooks.slice(0, maxResults)); // Limit to the first 30 results
@@ -63,10 +64,20 @@ const Discover: React.FC = () => {
   return (
     <div className="w-full mx-auto flex flex-col justify-center items-center">
       <h1>Discover</h1>
-      <div className="hero">
-        {showCardHero && selectedBook && <CardHero book={selectedBook} />}
-      </div>
       {selectedGenre && <p>Results for genre: {selectedGenre}</p>}
+      <div className="">
+        {showCardHero && selectedBook && (
+          <CardHero
+            title={selectedBook.volumeInfo.title}
+            authors={selectedBook.volumeInfo.authors}
+            publisher={selectedBook.volumeInfo.publisher}
+            publishedDate={selectedBook.volumeInfo.publishedDate}
+            description={selectedBook.volumeInfo.description}
+            imageLinks={selectedBook.volumeInfo.imageLinks}
+            infoLink={selectedBook.volumeInfo.infoLink}
+          />
+        )}
+      </div>
       {/* Pass the handleDiscoverMoreClick function to Results */}
       <Results bookData={genreResults} onDiscoverMoreClick={handleDiscoverMoreClick} />
     </div>
