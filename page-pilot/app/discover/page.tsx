@@ -2,11 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import Results from '../components/Results';
+import CardHero from '../components/CardHero';
 import axios from 'axios';
 
 const Discover: React.FC = () => {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [genreResults, setGenreResults] = useState<any[]>([]);
+  const [showCardHero, setShowCardHero] = useState(false);
 
   useEffect(() => {
     // Get the selected genre from the query parameter
@@ -19,6 +21,11 @@ const Discover: React.FC = () => {
       // Call the Google Books API based on the selected genre
       fetchBooksByGenre(genre);
     }
+
+    const handleClickDiscoverMore = () => {
+    // Handle the "Discover More" click
+    setShowCardHero(true);
+  };
   }, []);
 
   const fetchBooksByGenre = async (genre: string) => {
@@ -32,8 +39,6 @@ const Discover: React.FC = () => {
       const url = `https://www.googleapis.com/books/v1/volumes?q=subject:${encodeURIComponent(genre)}&key=${apiKey}&startIndex=${startIndex}&maxResults=40`;
       const response = await axios.get(url);
       const batchBooks = response.data.items || [];
-
-      console.log('API Response:', response.data); // Moved inside the loop
       
       if (batchBooks.length === 0) {
         // No more results, break the loop
@@ -44,24 +49,22 @@ const Discover: React.FC = () => {
       startIndex += batchBooks.length;
     }
     
-    console.log('Number of items fetched:', fetchedBooks.length);
-
     setGenreResults(fetchedBooks.slice(0, maxResults)); // Limit to the first 30 results
   } catch (error) {
     console.error('Error fetching books by genre:', error);
   }
 };
 
-
-
-
   return (
-  <div className="w-full mx-auto flex flex-col justify-center items-center">
-    <h1>Discover</h1>
-    {selectedGenre && <p>Results for genre: {selectedGenre}</p>}
-    <Results bookData={genreResults} />
-  </div>
-);
+    <div className="w-full mx-auto flex flex-col justify-center items-center">
+      <h1>Discover</h1>
+      <div className="hero">
+        {showCardHero && <CardHero />}
+      </div>
+      {selectedGenre && <p>Results for genre: {selectedGenre}</p>}
+      <Results bookData={genreResults} />
+    </div>
+  );
 };
 
 export default Discover;

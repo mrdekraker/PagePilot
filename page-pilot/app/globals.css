@@ -18,5 +18,5 @@ body,
 }
 
 body {
-  overflow: hidden;
+  overflow-y: auto;
 }

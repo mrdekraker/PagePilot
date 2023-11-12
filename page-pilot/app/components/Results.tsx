@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './Card'; // Import the Card component
+import CardHero from './CardHero'; // Import the CardHero component
 
 interface ResultsProps {
   bookData: {
@@ -16,11 +17,15 @@ interface ResultsProps {
 
 const Results: React.FC<ResultsProps> = ({ bookData }) => {
   const limitedBookData = bookData.slice(0, 30); // Limit to the first 30 results
+  const [showCardHero, setShowCardHero] = React.useState(false);
+
+  const handleDiscoverMoreClick = () => {
+    setShowCardHero(true);
+  };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-4">
+    <div className="p-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
       {limitedBookData.map((book, index) => (
-        // Use the Card component for each book
         <Card
           key={index}
           book={{
@@ -31,11 +36,12 @@ const Results: React.FC<ResultsProps> = ({ bookData }) => {
             imageLinks: {
               thumbnail: book.volumeInfo.imageLinks?.thumbnail || 'placeholder-image-url',
             },
-            authors: book.volumeInfo.authors || ['Unknown Author'], // Add this line
+            authors: book.volumeInfo.authors || ['Unknown Author'],
           }}
-          onClick={() => {}} // Add your onClick handler if needed
+          onDiscoverMoreClick={handleDiscoverMoreClick} // Pass the click handler as a prop
         />
       ))}
+      {showCardHero && <CardHero />} {/* Render CardHero conditionally */}
     </div>
   );
 };
