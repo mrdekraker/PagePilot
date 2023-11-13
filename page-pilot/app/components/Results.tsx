@@ -1,6 +1,6 @@
-import React from 'react';
-import Card from './Card';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import React from "react";
+import Card from "./Card";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 
 interface ResultsProps {
   bookData: {
@@ -25,13 +25,15 @@ const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
 
     if (hasImage) {
       return (
-        <img className="w-full h-full object-contain" src={imageLinks.thumbnail} alt={title} />
+        <img
+          className="w-full h-full object-contain"
+          src={imageLinks.thumbnail}
+          alt={title}
+        />
       );
     } else {
       return (
-        <div
-          className="flex flex-col w-full h-[208px] items-center justify-center border bg-gray-100 px-1"
-        >
+        <div className="flex flex-col w-full h-[208px] items-center justify-center border bg-gray-100 px-1">
           <span className="text-blue">Picture Not Available</span>
           <ExclamationTriangleIcon className="w-6" />
         </div>
@@ -46,11 +48,12 @@ const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
           key={index}
           book={{
             title: book.volumeInfo.title,
-            publisher: book.volumeInfo.publisher || 'Unknown Publisher',
-            publishedDate: book.volumeInfo.publishedDate || 'Unknown Date',
-            description: book.volumeInfo.description || 'No description available',
+            publisher: book.volumeInfo.publisher || "Unknown Publisher",
+            publishedDate: book.volumeInfo.publishedDate || "Unknown Date",
+            description:
+              book.volumeInfo.description || "No description available",
             imageLinks: book.volumeInfo.imageLinks,
-            authors: book.volumeInfo.authors || ['Unknown Author'],
+            authors: book.volumeInfo.authors || ["Unknown Author"],
           }}
           onDiscoverMoreClick={() => onDiscoverMoreClick(book)}
           renderImageOrPlaceholder={() => renderImageOrPlaceholder(book)}

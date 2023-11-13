@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import axios from 'axios';
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 
 interface Book {
   title: string;
@@ -18,7 +18,7 @@ const BookSuggestion: React.FC<{ title: string }> = ({ title }) => (
 );
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Book[]>([]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
       setSuggestions(books.slice(0, 5));
     } catch (error) {
-      console.error('Error fetching suggestions:', error);
+      console.error("Error fetching suggestions:", error);
     }
   };
 
@@ -55,12 +55,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     onSearch([{ title: bookTitle }]); // Update results when suggestion is clicked
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      onSearch(suggestions); // Update results when Enter key is pressed
-    }
-  };
-
   return (
     <div className="flex items-center justify-center my-4">
       <div className="sm:w-1/3 relative">
@@ -71,7 +65,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           placeholder="Search books..."
           value={query}
           onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
           autoComplete="off"
           className="w-full py-4 pl-10 px-6 text-lg text-gray-700 border border-ocean-blue rounded-md focus:outline-none focus:ring-1 focus:ring-ocean-deep"
         />
@@ -81,8 +74,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
               <li
                 key={index}
                 className="py-2 px-4 cursor-pointer hover:bg-gray-200"
-                onClick={() => handleSuggestionClick(book.title)}
-              >
+                onClick={() => handleSuggestionClick(book.title)}>
                 <BookSuggestion title={book.title} />
               </li>
             ))}

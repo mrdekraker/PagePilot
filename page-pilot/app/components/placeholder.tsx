@@ -1,75 +1,88 @@
-import React, { useState, ChangeEvent } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import axios from 'axios';
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 
 interface Book {
-  volumeInfo: {
-    title: string;
-    imageLinks: {
-      thumbnail: string;
-    };
-    authors: string[];
-    publishedDate: string;
-  };
+  title: string;
 }
 
-const SearchBar: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+interface SearchBarProps {
+  onSearch: (results: Book[]) => void;
+}
 
-  const fetchSuggestions = async (newQuery: string) => {
-  try {
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY;
-    const response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(newQuery)}&key=${apiKey}`
-    );
+const BookSuggestion: React.FC<{ title: string }> = ({ title }) => (
+  <div className="flex items-center">
+    {/* Add your book icon here, e.g., <BookIcon className="w-6 h-6 mr-2" /> */}
+    <span className="mr-2">{title}</span>
+  </div>
+);
 
-    if (response.status === 200) {
-      const data = response.data;
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [query, setQuery] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<Book[]>([]);
 
-      // Extract the top 5 book titles from the API response
-      const topTitles = data.items.slice(0, 5).map((item: Book) => item.volumeInfo.title);
-
-      setSuggestions(topTitles);
+  useEffect(() => {
+    if (query.length > 0) {
+      fetchBooks();
     } else {
-      console.error('Error fetching suggestions:', response.statusText);
+      setSuggestions([]);
     }
-  } catch (error) {
-    console.error('Error fetching suggestions:', error);
-  }
-};
+  }, [query]);
 
+  const fetchBooks = async () => {
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
 
-  const handleInputChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const newQuery = event.target.value;
-    setQuery(newQuery);
-    await fetchSuggestions(newQuery);
+    try {
+      const response = await axios.get(url);
+
+      const books = response.data.items.map((item: any) => ({
+        title: item.volumeInfo.title,
+      }));
+
+      setSuggestions(books.slice(0, 5));
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setQuery(suggestion);
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSuggestionClick = (bookTitle: string) => {
+    setQuery(bookTitle);
+    onSearch([{ title: bookTitle }]); // Update results when suggestion is clicked
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      onSearch(suggestions); // Update results when Enter key is pressed
+    }
   };
 
   return (
     <div className="flex items-center justify-center my-4">
-      <div className="w-1/3 relative">
+      <div className="sm:w-1/3 relative">
         <MagnifyingGlassIcon className="w-6 h-6 absolute left-3 top-1/2 transform -translate-y-1/2" />
         <input
+          name="search"
           type="text"
           placeholder="Search books..."
           value={query}
           onChange={handleInputChange}
-          className="w-full py-4 pl-10 px-6 text-lg text-gray-700 border border-ocean-blue rounded-md focus:outline-none focus:ring-1 focus:ring-deep-ocean"
+          onKeyPress={handleKeyPress}
+          autoComplete="off"
+          className="w-full py-4 pl-10 px-6 text-lg text-gray-700 border border-ocean-blue rounded-md focus:outline-none focus:ring-1 focus:ring-ocean-deep"
         />
         {suggestions.length > 0 && (
           <ul className="absolute w-full bg-white border border-ocean-blue rounded-md mt-1">
-            {suggestions.map((suggestion, index) => (
+            {suggestions.map((book, index) => (
               <li
                 key={index}
                 className="py-2 px-4 cursor-pointer hover:bg-gray-200"
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                {suggestion}
+                onClick={() => handleSuggestionClick(book.title)}>
+                <BookSuggestion title={book.title} />
               </li>
             ))}
           </ul>

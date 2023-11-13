@@ -47,13 +47,13 @@ const Card: React.FC<CardProps> = ({ book, onDiscoverMoreClick, renderImageOrPla
 
         <div className="mt-auto flex items-center justify-center">
           <div
-            className="cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-ocean-deep hover:text-white"
+            className="cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-ocean-deep hover:text-white text-center"
             onClick={handleClickDiscoverMore}
           >
             Discover More
           </div>
           <div
-            className="cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-ocean-deep hover:text-white"
+            className="cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-ocean-deep hover:text-white text-center"
             // onClick={handleClickDiscoverMore}
           >
             Understand More
