@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 type BookProps = {
   title: string;
@@ -10,30 +10,45 @@ type BookProps = {
   infoLink?: string;
 };
 
-const CardHero: React.FC<BookProps> = ({ title, authors, publisher, publishedDate, description, imageLinks, infoLink }) => {
+const CardHero: React.FC<BookProps> = ({
+  title,
+  authors,
+  publisher,
+  publishedDate,
+  description,
+  imageLinks,
+  infoLink,
+}) => {
   return (
-    <div className="border border-ocean-deep flex flex-row items-center p-2" style={{ maxWidth: '800px' }}>
+    <div
+      className="border border-ocean-deep flex flex-row items-center py-6"
+      style={{ maxWidth: "800px" }}>
       {/* Render the image if available */}
       {imageLinks && (
-        <img className="w-32 h-48 md:w-48 md:h-72 lg:w-64 lg:h-96 object-cover" src={imageLinks.thumbnail} alt={title} />
+        <img
+          className="w-32 h-48 md:w-48 md:h-72 lg:w-64 lg:h-96 object-cover"
+          src={imageLinks.thumbnail}
+          alt={title}
+        />
       )}
 
       {/* Middle Column */}
       <div className="flex flex-col px-2">
         {/* Your styling and layout for the detailed book information */}
         {/* Use the passed props to display the detailed book data */}
-        <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold mb-2">{title}</h2>
-        <p className="text-gray-700 mb-2">Author(s): {authors.join(', ')}</p>
+        <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold mb-2">
+          {title}
+        </h2>
+        <p className="text-gray-700 mb-2">Author(s): {authors.join(", ")}</p>
         <p className="text-gray-700 mb-2">Publisher: {publisher}</p>
         <p className="text-gray-700 mb-2">Published Date: {publishedDate}</p>
         <p className="text-gray-700 mb-2">Description: {description}</p>
 
         {/* Flex container for links */}
-        <div className="flex space-x-4">
+        <div className="flex justify-center space-x-4">
           {/* Render the "More Info" link if available */}
           {infoLink && (
-            <div
-            className="cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-ocean-deep hover:text-white">
+            <div className="text-center cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-ocean-deep hover:text-white">
               <a href={infoLink} target="_blank" rel="noopener noreferrer">
                 More Info
               </a>
@@ -42,7 +57,7 @@ const CardHero: React.FC<BookProps> = ({ title, authors, publisher, publishedDat
 
           {/* "Understand More" Button */}
           <div
-            className="cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-ocean-deep hover:text-white"
+            className="text-center cursor-pointer inline-block bg-cyan-100 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-ocean-deep hover:text-white"
             // onClick={handleClickDiscoverMore}
           >
             Understand More

@@ -13,7 +13,7 @@ interface ResultsProps {
       authors: string[];
     };
   }[];
-  onDiscoverMoreClick: (book: any) => void;
+  onDiscoverMoreClick: (book: any) => void; // Updated the function signature
 }
 
 const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
@@ -26,14 +26,15 @@ const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
     if (hasImage) {
       return (
         <img
-          className="w-full h-full object-contain"
+          className="w-full object-contain"
           src={imageLinks.thumbnail}
           alt={title}
+          style={{ height: "200px" }} // Set a fixed height for the images
         />
       );
     } else {
       return (
-        <div className="flex flex-col w-full h-[208px] items-center justify-center border bg-gray-100 px-1">
+        <div className="flex flex-col w-full h-[208px] items-center justify-center border bg-gray-300 px-1">
           <span className="text-blue">Picture Not Available</span>
           <ExclamationTriangleIcon className="w-6" />
         </div>

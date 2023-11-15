@@ -2,12 +2,14 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 
-interface Book {
+type Book = {
   title: string;
-}
+  volumeInfo: any; // Add this line
+};
 
 interface SearchBarProps {
   onSearch: (results: Book[]) => void;
+  onBookSelect: (selectedBook: any) => void; // Add this line
 }
 
 const BookSuggestion: React.FC<{ title: string }> = ({ title }) => (
@@ -41,6 +43,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       }));
 
       setSuggestions(books.slice(0, 5));
+
+      // Log the entire response object only when the API call is successful
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
@@ -50,9 +54,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     setQuery(event.target.value);
   };
 
-  const handleSuggestionClick = (bookTitle: string) => {
-    setQuery(bookTitle);
-    onSearch([{ title: bookTitle }]); // Update results when suggestion is clicked
+  const handleSuggestionClick = (book: any) => {
+    setQuery(book.title);
+    onSearch([{ title: book.title, volumeInfo: book.volumeInfo }]); // Add title property
   };
 
   return (
@@ -74,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
               <li
                 key={index}
                 className="py-2 px-4 cursor-pointer hover:bg-gray-200"
-                onClick={() => handleSuggestionClick(book.title)}>
+                onClick={() => handleSuggestionClick(book)}>
                 <BookSuggestion title={book.title} />
               </li>
             ))}

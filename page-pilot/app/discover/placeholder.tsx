@@ -2,13 +2,11 @@
 
 // Discover.tsx
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Results from "../components/Results";
 import CardHero from "../components/CardHero";
 import axios from "axios";
 
 const Discover: React.FC = () => {
-  const router = useRouter();
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [genreResults, setGenreResults] = useState<any[]>([]);
   const [showCardHero, setShowCardHero] = useState(false);
@@ -21,14 +19,6 @@ const Discover: React.FC = () => {
     if (genre) {
       setSelectedGenre(decodeURIComponent(genre));
       fetchBooksByGenre(genre);
-    } else {
-      const results = urlParams.get("results");
-
-      if (results) {
-        const searchResults = JSON.parse(decodeURIComponent(results));
-        // You can set some state or perform other actions with the search results
-        console.log("Search results:", searchResults);
-      }
     }
   }, []);
 
