@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { BookOpenIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 
 type Book = {
@@ -12,14 +13,19 @@ interface SearchBarProps {
   onBookSelect: (selectedBook: any) => void; // Add this line
 }
 
-const BookSuggestion: React.FC<{ title: string }> = ({ title }) => (
+const BookSuggestion: React.FC<{
+  title: string;
+  onBookSelect: (selectedBook: any) => void;
+}> = ({ title, onBookSelect }) => (
   <div className="flex items-center">
-    {/* Add your book icon here, e.g., <BookIcon className="w-6 h-6 mr-2" /> */}
-    <span className="mr-2">{title}</span>
+    {/* <BookOpenIcon className="w-6 h-6 mr-2" /> */}
+    <span className="mr-2" onClick={() => onBookSelect(title)}>
+      {title}
+    </span>
   </div>
 );
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onBookSelect }) => {
   const [query, setQuery] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Book[]>([]);
 
@@ -40,11 +46,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
       const books = response.data.items.map((item: any) => ({
         title: item.volumeInfo.title,
+        volumeInfo: item.volumeInfo, // Add volumeInfo property
       }));
 
       setSuggestions(books.slice(0, 5));
-
-      // Log the entire response object only when the API call is successful
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
@@ -55,8 +60,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   const handleSuggestionClick = (book: any) => {
-    setQuery(book.title);
-    onSearch([{ title: book.title, volumeInfo: book.volumeInfo }]); // Add title property
+    setQuery(""); // Clear the search bar
+    onSearch([{ title: book.title, volumeInfo: book.volumeInfo }]);
+    onBookSelect(book); // Invoke onBookSelect with the selected book
+  };
+
+  const handleDropdownLinkClick = (action: string) => {
+    // Clear the search bar on dropdown link click
+    setQuery("");
+
+    // Add your logic based on the dropdown link clicked
+    if (action === "someAction") {
+      // Perform some action
+    } else if (action === "anotherAction") {
+      // Perform another action
+    }
   };
 
   return (
@@ -79,7 +97,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                 key={index}
                 className="py-2 px-4 cursor-pointer hover:bg-gray-200"
                 onClick={() => handleSuggestionClick(book)}>
-                <BookSuggestion title={book.title} />
+                <BookSuggestion
+                  title={book.title}
+                  onBookSelect={onBookSelect}
+                />
               </li>
             ))}
           </ul>

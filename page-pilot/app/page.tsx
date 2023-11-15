@@ -37,6 +37,11 @@ export default function Home() {
     setSearchResults(results);
   };
 
+  const handleBookSelect = (selectedBook: any) => {
+    setSelectedBook(selectedBook);
+    setShowCardHero(true);
+  };
+
   const handleDiscoverMoreClick = (book: any) => {
     setSelectedBook(book);
     setShowCardHero(true);
@@ -84,17 +89,7 @@ export default function Home() {
       <div className="border bg-ocean-surf text-center my-8 p-6">
         <h1 className="text-6xl">Discover Books You'll Love</h1>
         <p className="text-2xl">Your all-in-one book companion.</p>
-        <SearchBar
-          onSearch={(results) => {
-            // Handle search results
-            console.log(results);
-          }}
-          onBookSelect={(selectedBook) => {
-            // Handle the selected book
-            console.log(selectedBook);
-            // Dispatch the selected book to your store or perform other actions
-          }}
-        />
+        <SearchBar onSearch={handleSearch} onBookSelect={handleBookSelect} />
       </div>
 
       <div className="w-2/3 mx-auto items-center sm:my-10 sm:p-2">
