@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { BookOpenIcon } from "@heroicons/react/24/solid";
 import { Libre_Baskerville } from "next/font/google";
@@ -11,13 +13,19 @@ const libre = Libre_Baskerville({
 type Props = {};
 
 const Navbar = (props: Props) => {
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   return (
     <header className="mb-5">
       <nav className="flex justify-between items-center w-full bg-wh-900 text-wh-10 px-10 py-4">
-        <h1 className={`${libre.className} font-bold text-4xl hidden sm:block`}>
+        <h1
+          onClick={refreshPage}
+          className={`${libre.className} font-bold text-4xl hidden sm:block`}>
           <Link href="/">PagePilot</Link>
         </h1>
-        <div>
+        <div onClick={refreshPage}>
           <Link href="/">
             <BookOpenIcon className="inline-block w-14 h-14 mr-1" />
           </Link>
