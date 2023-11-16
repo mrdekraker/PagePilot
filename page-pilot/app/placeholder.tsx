@@ -1,5 +1,4 @@
 "use client";
-
 // Home.tsx
 import React, { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
@@ -21,7 +20,9 @@ type Book = {
     };
     infoLink: string;
     categories: string[];
+    // Add more properties if needed
   };
+  // Add other properties if needed
 };
 
 export default function Home() {
@@ -30,12 +31,9 @@ export default function Home() {
   const [genreResults, setGenreResults] = useState<any[]>([]);
   const [showCardHero, setShowCardHero] = useState(false);
   const [selectedBook, setSelectedBook] = useState<any | null>(null);
-  const [suggestions, setSuggestions] = useState<Book[]>([]); // Add suggestions state
-
-  const MAX_RETRIES = 3;
-  const RETRY_DELAY_MS = 1000; // 1 second
 
   useEffect(() => {
+    // Use other means to get query parameters if needed
     const urlParams = new URLSearchParams(window.location.search);
     const genre = urlParams.get("genre");
 
@@ -45,53 +43,19 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    // Fetch new results when selectedGenre changes
     if (selectedGenre) {
       fetchBooksByGenre(selectedGenre);
     }
   }, [selectedGenre]);
 
-  const handleSearch = async (query: string, retries = 0): Promise<void> => {
-    try {
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY;
-      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
-        query
-      )}&key=${apiKey}`;
-
-      const response = await axios.get(url);
-
-      const books: Book[] = response.data.items.map((item: any) => ({
-        volumeInfo: item.volumeInfo,
-      }));
-
-      setSearchResults(books.slice(0, 5));
-      await fetchBooks(query); // Call fetchBooks with the query string
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 429) {
-        // Too Many Requests, retry after a delay
-        if (retries < MAX_RETRIES) {
-          console.log(
-            `Rate limit exceeded. Retrying after ${
-              RETRY_DELAY_MS / 1000
-            } seconds.`
-          );
-          await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
-          return handleSearch(query, retries + 1);
-        } else {
-          console.error("Exceeded maximum number of retries. Aborting.");
-        }
-      } else {
-        console.error("Error fetching search results:", error);
-      }
-    }
+  const handleSearch = (results: any[]) => {
+    setSearchResults(results);
   };
 
   const handleBookSelect = (selectedBook: any) => {
     setSelectedBook(selectedBook);
     setShowCardHero(true);
-  };
-
-  const handleGenreClick = (genre: string) => {
-    setSelectedGenre(genre);
   };
 
   const handleDiscoverMoreClick = (book: any) => {
@@ -107,12 +71,16 @@ export default function Home() {
       let fetchedBooks: any[] = [];
 
       while (fetchedBooks.length < maxResults) {
+        // Start with the lowercase category
         let searchQuery = category.toLowerCase();
+
+        // Append "fiction" and "non-fiction" along with the category
         const searchQueries = [
           `${searchQuery} fiction`,
           `${searchQuery} non-fiction`,
         ];
 
+        // Use Promise.all to make parallel API requests
         const responses = await Promise.all(
           searchQueries.map((query) =>
             axios.get(
@@ -123,15 +91,18 @@ export default function Home() {
           )
         );
 
+        // Process each response
         responses.forEach((response) => {
           const batchBooks = response.data.items || [];
 
           if (batchBooks.length > 0) {
+            // Append books to the fetchedBooks array
             fetchedBooks = fetchedBooks.concat(batchBooks);
             startIndex += batchBooks.length;
           }
         });
 
+        // Log the API responses
         responses.forEach((response, index) => {
           console.log(
             `API Response ${index + 1} for category:`,
@@ -140,6 +111,7 @@ export default function Home() {
           );
         });
 
+        // Check if there are enough results, break the loop if needed
         if (fetchedBooks.length >= maxResults) {
           break;
         }
@@ -152,24 +124,8 @@ export default function Home() {
     }
   };
 
-  const fetchBooks = async (query: string) => {
-    try {
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY;
-      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
-        query
-      )}&key=${apiKey}`;
-
-      const response = await axios.get(url);
-
-      const books: Book[] = response.data.items.map((item: any) => ({
-        title: item.volumeInfo.title,
-        volumeInfo: item.volumeInfo,
-      }));
-
-      setSuggestions(books.slice(0, 5));
-    } catch (error) {
-      console.error("Error fetching suggestions:", error);
-    }
+  const handleGenreClick = (genre: string) => {
+    setSelectedGenre(genre);
   };
 
   return (
@@ -177,11 +133,7 @@ export default function Home() {
       <div className="border bg-ocean-surf text-center my-8 p-6">
         <h1 className="text-6xl">Discover Books You'll Love</h1>
         <p className="text-2xl">Your all-in-one book companion.</p>
-        <SearchBar
-          onSearch={handleSearch}
-          onBookSelect={handleBookSelect}
-          fetchBooks={fetchBooks} // Pass the fetchBooks function as a prop
-        />
+        <SearchBar onSearch={handleSearch} onBookSelect={handleBookSelect} />
       </div>
 
       <div className="w-2/3 mx-auto items-center sm:my-10 sm:p-2">

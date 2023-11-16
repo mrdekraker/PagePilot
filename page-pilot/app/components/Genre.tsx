@@ -5,10 +5,10 @@ interface GenreProps {
 }
 
 const genres = [
+  "Fiction",
   "Mystery",
   "Science Fiction",
   "Fantasy",
-  "Romance",
   "Historical Fiction",
   "Dystopian Fiction",
   "Young Adult (YA) Fiction",
