@@ -13,7 +13,16 @@ interface ResultsProps {
       authors: string[];
     };
   }[];
-  onDiscoverMoreClick: (book: any) => void; // Updated the function signature
+  onDiscoverMoreClick: (book: {
+    volumeInfo: {
+      title: string;
+      publisher: string;
+      publishedDate: string;
+      description: string;
+      imageLinks: { thumbnail: string };
+      authors: string[];
+    };
+  }) => void; // Corrected the function signature
 }
 
 const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
