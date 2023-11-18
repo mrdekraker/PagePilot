@@ -13,30 +13,38 @@ const libre = Libre_Baskerville({
 type Props = {};
 
 const Navbar = (props: Props) => {
-  const refreshPage = () => {
-    window.location.reload();
-  };
-
   return (
     <header className="mb-5">
       <nav className="flex justify-between items-center w-full bg-wh-900 text-wh-10 px-10 py-4">
-        <h1
-          onClick={refreshPage}
+        {/* Use Link component for navigation to the home page */}
+        <Link
+          href="/"
           className={`${libre.className} font-bold text-4xl hidden sm:block`}>
-          <Link href="/">PagePilot</Link>
-        </h1>
-        <div onClick={refreshPage}>
+          PagePilot
+        </Link>
+
+        <div>
+          {/* Use Link component for navigation to the home page */}
           <Link href="/">
             <BookOpenIcon className="inline-block w-14 h-14 mr-1" />
           </Link>
         </div>
+
         <ul className="flex flex-row space-x-2 text-xl">
+          {/* Use Link component for navigation to the discover page */}
           <li className="hover:text-ocean-blue">
             <Link href="/discover">Discover</Link>
           </li>
+
+          {/* Use Link component for navigation to the understand page */}
           <li className="hover:text-ocean-blue">
             <Link href="/understand">Understand</Link>
           </li>
+
+          {/* Uncomment and use Link component for navigation to the login page */}
+          {/* <li className="hover:text-ocean-blue">
+            <Link href="/login">Log In</Link>
+          </li> */}
         </ul>
       </nav>
     </header>

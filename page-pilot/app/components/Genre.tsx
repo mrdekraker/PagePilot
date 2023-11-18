@@ -1,38 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface GenreProps {
   onSelectGenre: (genre: string) => void;
 }
 
 const genres = [
-  "Fiction",
   "Mystery",
+  "Fiction",
   "Science Fiction",
   "Fantasy",
+  "Thriller",
   "Historical Fiction",
-  "Dystopian Fiction",
-  "Young Adult (YA) Fiction",
-  "Contemporary Fiction",
-  "Non-Fiction",
   "Biography",
   "Self-Help",
   "Horror",
-  "Classic Literature",
   "Adventure",
-  "Children's Books",
+  "Humor",
+  "Dystopian",
+  "Crime",
+  "Young Adult",
+  "Classic",
+  "Comedy",
+  "Satire",
+  "Drama",
+  "Action",
+  "Poetry",
+  "Memoir",
+  "Psychology",
+  "Cooking",
+  "History",
+  "Travel",
+  "Science",
+  "Art",
+  "Business",
 ];
 
 const Genre: React.FC<GenreProps> = ({ onSelectGenre }) => {
+  const [displayedGenres, setDisplayedGenres] = useState<string[]>([]);
+
+  // Shuffle the genres on component mount
+  useEffect(() => {
+    const shuffledGenres = [...genres].sort(() => Math.random() - 0.5);
+    setDisplayedGenres(shuffledGenres.slice(0, 15));
+  }, []);
+
   const handleGenreClick = (genre: string) => {
     onSelectGenre(genre);
   };
 
   return (
     <div className="grid gird-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center">
-      {genres.map((genre, index) => (
+      {displayedGenres.map((genre, index) => (
         <button
           key={index}
-          className={`w-full bg-ocean-blue text-white px-4 py-2 rounded hover:bg-ocean-deep`}
+          className="w-full bg-ocean-blue text-white px-4 py-2 rounded hover:bg-ocean-deep hover:shadow-xl"
           onClick={() => handleGenreClick(genre)}>
           {genre}
         </button>

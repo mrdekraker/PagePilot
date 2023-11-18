@@ -21,7 +21,7 @@ const CardHero: React.FC<BookProps> = ({
 }) => {
   return (
     <div
-      className="border border-ocean-deep flex flex-row items-center py-6"
+      className="border border-ocean-deep rounded-md shadow-xl flex flex-row items-center py-6"
       style={{ maxWidth: "800px" }}>
       {/* Render the image if available */}
       {imageLinks && (

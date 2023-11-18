@@ -30,10 +30,10 @@ export default function Home() {
   const [genreResults, setGenreResults] = useState<any[]>([]);
   const [showCardHero, setShowCardHero] = useState(false);
   const [selectedBook, setSelectedBook] = useState<any | null>(null);
-  const [suggestions, setSuggestions] = useState<Book[]>([]); // Add suggestions state
+  const [suggestions, setSuggestions] = useState<Book[]>([]);
 
   const MAX_RETRIES = 3;
-  const RETRY_DELAY_MS = 1000; // 1 second
+  const RETRY_DELAY_MS = 1000;
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -43,6 +43,13 @@ export default function Home() {
       setSelectedGenre(decodeURIComponent(genre));
     }
   }, []);
+
+  const resetResults = () => {
+    setSearchResults([]);
+    setGenreResults([]);
+    setShowCardHero(false);
+    setSelectedBook(null);
+  };
 
   useEffect(() => {
     if (selectedGenre) {
@@ -64,10 +71,9 @@ export default function Home() {
       }));
 
       setSearchResults(books.slice(0, 5));
-      await fetchBooks(query); // Call fetchBooks with the query string
+      await fetchBooks(query);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 429) {
-        // Too Many Requests, retry after a delay
         if (retries < MAX_RETRIES) {
           console.log(
             `Rate limit exceeded. Retrying after ${
@@ -77,7 +83,7 @@ export default function Home() {
           await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
           return handleSearch(query, retries + 1);
         } else {
-          console.error("Exceeded maximum number of retries. Aborting.");
+          console.error("Exceeded the maximum number of retries. Aborting.");
         }
       } else {
         console.error("Error fetching search results:", error);
@@ -92,6 +98,7 @@ export default function Home() {
 
   const handleGenreClick = (genre: string) => {
     setSelectedGenre(genre);
+    resetResults(); // Call resetResults when a new genre is selected
   };
 
   const handleDiscoverMoreClick = (book: any) => {
