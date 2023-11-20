@@ -18,7 +18,6 @@ const genres = [
   "Humor",
   "Dystopian",
   "Crime",
-  "Young Adult",
   "Classic",
   "Comedy",
   "Satire",

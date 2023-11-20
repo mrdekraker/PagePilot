@@ -2,33 +2,26 @@ import React from "react";
 import Card from "./Card";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 
+type BookProps = {
+  volumeInfo: {
+    title: string;
+    publisher: string;
+    publishedDate: string;
+    description: string;
+    imageLinks: { thumbnail: string };
+    authors: string[];
+  };
+};
+
 interface ResultsProps {
-  bookData: {
-    volumeInfo: {
-      title: string;
-      publisher: string;
-      publishedDate: string;
-      description: string;
-      imageLinks: { thumbnail: string };
-      authors: string[];
-    };
-  }[];
-  onDiscoverMoreClick: (book: {
-    volumeInfo: {
-      title: string;
-      publisher: string;
-      publishedDate: string;
-      description: string;
-      imageLinks: { thumbnail: string };
-      authors: string[];
-    };
-  }) => void; // Corrected the function signature
+  bookData: BookProps[];
+  onDiscoverMoreClick: (book: BookProps) => void;
 }
 
 const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
   const limitedBookData = bookData.slice(0, 30);
 
-  const renderImageOrPlaceholder = (book: any) => {
+  const renderImageOrPlaceholder = (book: BookProps) => {
     const { imageLinks, title } = book.volumeInfo;
     const hasImage = imageLinks !== undefined;
 
@@ -38,7 +31,7 @@ const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
           className="w-full object-contain"
           src={imageLinks.thumbnail}
           alt={title}
-          style={{ height: "200px" }} // Set a fixed height for the images
+          style={{ height: "200px" }}
         />
       );
     } else {
@@ -57,13 +50,15 @@ const Results: React.FC<ResultsProps> = ({ bookData, onDiscoverMoreClick }) => {
         <Card
           key={index}
           book={{
-            title: book.volumeInfo.title,
-            publisher: book.volumeInfo.publisher || "Unknown Publisher",
-            publishedDate: book.volumeInfo.publishedDate || "Unknown Date",
-            description:
-              book.volumeInfo.description || "No description available",
-            imageLinks: book.volumeInfo.imageLinks,
-            authors: book.volumeInfo.authors || ["Unknown Author"],
+            volumeInfo: {
+              title: book.volumeInfo.title,
+              publisher: book.volumeInfo.publisher || "Unknown Publisher",
+              publishedDate: book.volumeInfo.publishedDate || "Unknown Date",
+              description:
+                book.volumeInfo.description || "No description available",
+              imageLinks: book.volumeInfo.imageLinks,
+              authors: book.volumeInfo.authors || ["Unknown Author"],
+            },
           }}
           onDiscoverMoreClick={() => onDiscoverMoreClick(book)}
           renderImageOrPlaceholder={() => renderImageOrPlaceholder(book)}

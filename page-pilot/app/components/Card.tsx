@@ -1,12 +1,14 @@
 import React from "react";
 
 type BookProps = {
-  title: string;
-  authors: string[];
-  publisher: string;
-  publishedDate: string;
-  description: string;
-  imageLinks?: { thumbnail: string };
+  volumeInfo: {
+    title: string;
+    authors: string[];
+    publisher: string;
+    publishedDate: string;
+    description: string;
+    imageLinks?: { thumbnail: string };
+  };
 };
 
 type CardProps = {
@@ -20,7 +22,8 @@ const Card: React.FC<CardProps> = ({
   onDiscoverMoreClick,
   renderImageOrPlaceholder,
 }) => {
-  const { title, authors, publisher, publishedDate, description } = book;
+  const { title, authors, publisher, publishedDate, description, imageLinks } =
+    book.volumeInfo;
 
   const maxDescriptionLength = 150;
   const truncatedDescription =
@@ -29,7 +32,7 @@ const Card: React.FC<CardProps> = ({
       : description;
 
   const handleClickDiscoverMore = () => {
-    onDiscoverMoreClick(book); // Pass the book to the parent handler
+    onDiscoverMoreClick(book);
   };
 
   return (

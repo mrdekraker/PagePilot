@@ -63,6 +63,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleSuggestionClick = (book: Book) => {
     setQuery(""); // Clear the search bar
+    setSuggestions([]); // Clear the suggestions dropdown
     onBookSelect(book); // Assuming you want to select the first book in the list
     onSearch(book.title); // Pass the book title to onSearch
   };
@@ -117,7 +118,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           placeholder="Search books..."
           value={query}
           onChange={handleInputChange}
-          onKeyDown={handleSearchTrigger} // Trigger the search on Enter key press
+          onKeyDown={handleSearchTrigger}
           autoComplete="off"
           className="w-full py-4 pl-10 px-6 text-lg text-gray-700 border border-ocean-blue rounded-md focus:outline-none focus:ring-1 focus:ring-ocean-deep"
         />

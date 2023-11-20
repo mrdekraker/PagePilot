@@ -1,8 +1,7 @@
-import React from 'react'
+import React from "react";
 
-import Link from 'next/link'
-import { BookOpenIcon } from '@heroicons/react/24/solid'
-
+import Link from "next/link";
+import { BookOpenIcon } from "@heroicons/react/24/solid";
 
 const Footer = () => {
   return (
@@ -15,7 +14,9 @@ const Footer = () => {
             PagePilot
           </h4>
           <p className="my-5">
-            PagePilot: Your literary co-pilot! Discover books you'll love, and unravel text passages effortlessly with the use of ChatGPT's insightful analysis.
+            PagePilot: Your literary co-pilot! Discover books you'll love, and
+            unravel text passages effortlessly with the use of ChatGPT's
+            insightful analysis.
           </p>
           <p>© Mark DeKraker - All Rights Reserved</p>
         </div>
@@ -26,9 +27,7 @@ const Footer = () => {
             <Link href="http://mrdekraker.com">mrdekraker.com</Link>
           </p>
           <p className="my-5 hover:text-ocean-blue">
-            <Link href="https://www.linkedin.com/in/mdek/">
-              LinkedIn
-            </Link>
+            <Link href="https://www.linkedin.com/in/mdek/">LinkedIn</Link>
           </p>
           <p className=" hover:text-ocean-blue">
             <Link href="https://www.github.com/mrdekraker">GitHub</Link>
@@ -42,7 +41,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
