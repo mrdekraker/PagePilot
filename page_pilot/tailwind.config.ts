@@ -8,13 +8,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        Mont: ["var(--font-mont)", "sans-serif"],
+        Libre: ["var(--font-libre)", "serif"],
+      },
+      colors: {
+        "gr-1": "#EDF1D6",
+        "gr-2": "#9DC08B",
+        "gr-3": "#609966",
+        "gr-4": "#40513B",
       },
     },
+    backgroundImage: (theme) => ({
+      "gradient-gradual":
+        "linear-gradient(180deg, rgba(116, 116, 116, 0) 66.15%, #000000 100%)",
+    }),
   },
-  plugins: [],
+  screens: {
+    xs: "480px",
+    sm: "640px",
+    md: "768px",
+    lg: "1060px",
+  },
+  plugins: [require("@tailwindcss/forms")],
 };
+
 export default config;
