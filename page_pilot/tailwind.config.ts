@@ -13,10 +13,14 @@ const config: Config = {
         Libre: ["var(--font-libre)", "serif"],
       },
       colors: {
-        "gr-1": "#EDF1D6",
-        "gr-2": "#9DC08B",
-        "gr-3": "#609966",
-        "gr-4": "#40513B",
+        "gr-1": "#F5F8F2",
+        "gr-2": "#EAF8F5",
+        "gr-3": "#EDF1D6",
+        "gr-4": "#D6E2C0",
+        "gr-5": "#9DC08B",
+        "gr-6": "#609966",
+        "gr-7": "#40513B",
+        "gr-8": "#2E3A2A",
       },
     },
     backgroundImage: (theme) => ({
